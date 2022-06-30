@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+    "name": "Baby's First Extension",
+    "version": "0.1",
+    "description": "Inserts a header at the top of every page.",
+    "permissions": [
+        "storage",
+        "tabs",
+        "webRequest"
+    ],
+    "host_permissions": [
+        "https://*.pie.iu.edu/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://*.pie.iu.edu/*"],
+            "js": ["contentScript.js"]
+        }
+    ],
+    "action": {
+        "default_title": "Header Inserter",
+        "default_popup": "popup.html"
+    }
+}
