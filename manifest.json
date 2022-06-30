@@ -1,12 +1,11 @@
 {
     "manifest_version": 3,
-    "name": "Baby's First Extension",
+    "name": "PIE++",
     "version": "0.1",
-    "description": "Inserts a header at the top of every page.",
+    "description": "Adds some much-needed QOL features to PIE",
     "permissions": [
         "storage",
-        "tabs",
-        "webRequest"
+        "tabs"
     ],
     "host_permissions": [
         "https://*.pie.iu.edu/*"
@@ -17,11 +16,15 @@
     "content_scripts": [
         {
             "matches": ["https://*.pie.iu.edu/*"],
-            "js": ["contentScript.js"]
+            "js": ["contentScripts/contentScript.js"]
+        },
+        {
+            "matches": ["https://*.pie.iu.edu/InventoryReports*"],
+            "js": ["contentScripts/inventoryReportsHistorical.js"]
         }
     ],
     "action": {
-        "default_title": "Header Inserter",
+        "default_title": "PIE++",
         "default_popup": "popup.html"
     }
 }
