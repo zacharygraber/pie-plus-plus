@@ -5,7 +5,8 @@
     "description": "Adds some much-needed QOL features to PIE",
     "permissions": [
         "storage",
-        "tabs"
+        "tabs",
+        "downloads"
     ],
     "host_permissions": [
         "https://*.pie.iu.edu/*"
