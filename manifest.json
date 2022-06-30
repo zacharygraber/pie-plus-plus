@@ -20,7 +20,8 @@
         },
         {
             "matches": ["https://*.pie.iu.edu/InventoryReports*"],
-            "js": ["contentScripts/inventoryReportsHistorical.js"]
+            "js": ["contentScripts/inventoryReports.js"],
+            "run_at": "document_end"
         }
     ],
     "action": {
