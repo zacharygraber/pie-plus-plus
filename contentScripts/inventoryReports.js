@@ -12,7 +12,7 @@ function sleep(ms) {
   any existing 'Save' button would be wiped by clicking 'Filter.'
 */
 
-async function startLoadingGifListener() {
+async function startLoadingGifObserver() {
     let loadingGifElement;
     while (!(loadingGifElement = document.getElementsByTagName("loading-gif")[0])) {
         await sleep(500);// Put a wait in here so we're only spam-checking every 500ms, not holding up the entire page
@@ -38,6 +38,11 @@ async function startLoadingGifListener() {
     });
 }
 
+// Define behavior for the 'Save' button
+function onSaveClicked() {
+    console.log("SAVE BUTTON CLICKED!");
+}
+
 async function attemptSaveButtonInject() {
     // Wait for the filter button to show up again, just in case there is a slight delay between loading finish and
     //      the DOM being updated
@@ -46,16 +51,14 @@ async function attemptSaveButtonInject() {
         await sleep(500); // Put a wait in here so we're only spam-checking every 500ms, not holding up the entire page
     }
 
-    let injectedButton = `
-        <button class="btn btn-primary" type="button" onclick="onSaveClicked()">Save</button>
-    `;
-    filterButtonElement.insertAdjacentHTML("afterend", injectedButton);
+    let injectedButton = document.createElement("button");
+    injectedButton.setAttribute("class", "btn btn-primary");
+    injectedButton.setAttribute("type", "button");
+    injectedButton.onclick = onSaveClicked;
+    injectedButton.innerHTML = "Save";
+
+    filterButtonElement.parentElement.appendChild(injectedButton);
     console.log("SAVE BUTTON INJECTED");
 }
 
-startLoadingGifListener();
-
-// Define behavior for the 'Save' button
-function onSaveClicked() {
-    console.log("SAVE BUTTON CLICKED!");
-}
+startLoadingGifObserver();
