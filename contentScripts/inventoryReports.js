@@ -1,15 +1,20 @@
-console.log("Content Script Loaded!");
+// Change this to true to enable console.log() debug messages
+const DEBUG = true; 
+
+if (DEBUG) console.log("Content Script Loaded!");
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /* 
-    The first thing we want to do when the content script is loaded is add an `onclick` to the 'Historical' 
-  tab's 'Filter' button. Clicking 'Filter' will refresh the content on the page, but not actually refresh the
-  page itself, meaning that the 'Save' button would otherwise not be re-injected and go missing from the DOM.
-  Basically, we are just injected a 'Save' button every time the 'Filter' button is clicked--this is safe, since
-  any existing 'Save' button would be wiped by clicking 'Filter.'
+        We are injecting a 'Save' button onto the 'Historical' part of the Inventory Reports
+    page. The problem here is with Angular and the way it loads web pages. When the page is "finished"
+    loading, the content isn't there yet; instead, the loading screen is displayed while the rest of
+    the page's content is loaded into the DOM. We need to wait for the page to *actually* be loaded,
+    and the easiest way I've found is to attach an Observer to the loading icon--whenever the loading
+    icon *was* visible and is now hidden, the page should be either done or nearly done loading. This
+    also solves the problem of the 'Filter' button wiping away our custom DOM element.
 */
 
 async function startLoadingGifObserver() {
@@ -22,7 +27,7 @@ async function startLoadingGifObserver() {
         for (const mutation of mutations) {
             if (mutation.type === "attributes") {
                 if (loadingGifElement.getAttribute("class").includes("ng-hide")) {
-                    console.log("LOADING GIF HIDDEN");
+                    if (DEBUG) console.log("LOADING GIF HIDDEN");
                     // observer.disconnect();
                     attemptSaveButtonInject();
                 }
@@ -36,11 +41,6 @@ async function startLoadingGifObserver() {
         attributeOldValue: true, 
         attributeFilter: ["class"]
     });
-}
-
-// Define behavior for the 'Save' button
-function onSaveClicked() {
-    console.log("SAVE BUTTON CLICKED!");
 }
 
 async function attemptSaveButtonInject() {
@@ -58,7 +58,15 @@ async function attemptSaveButtonInject() {
     injectedButton.innerHTML = "Save";
 
     filterButtonElement.parentElement.appendChild(injectedButton);
-    console.log("SAVE BUTTON INJECTED");
+    if (DEBUG) console.log("SAVE BUTTON INJECTED");
+}
+
+// Define behavior for the 'Save' button
+function onSaveClicked() {
+    if (DEBUG) console.log("SAVE BUTTON CLICKED!");
+    // Parse whatever is in the 'Data' tab into an array
+    const entries = [];
+    // TODO: figure out a logical structure for the data
 }
 
 startLoadingGifObserver();
