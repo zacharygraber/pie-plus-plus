@@ -7,6 +7,15 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// Returns a string with this tab's current URL
+function requestCurrentUrl() {
+    let url = "";
+    chrome.runtime.sendMessage({MESSAGE_TYPE: URL_REQ}, function(response) {
+        if (response.url) url = response.url;
+    });
+    return url;
+}
+
 /* 
         We are injecting a 'Save' button onto the 'Historical' part of the Inventory Reports
     page. The problem here is with Angular and the way it loads web pages. When the page is "finished"
