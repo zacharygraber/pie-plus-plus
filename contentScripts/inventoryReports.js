@@ -7,13 +7,18 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Returns a string with this tab's current URL
-function requestCurrentUrl() {
-    let url = "";
-    chrome.runtime.sendMessage({MESSAGE_TYPE: URL_REQ}, function(response) {
-        if (response.url) url = response.url;
+// Returns a promise with a string with this tab's current URL
+async function requestCurrentUrl() {
+    return new Promise(function(resolve, reject) {
+        chrome.runtime.sendMessage({MESSAGE_TYPE: "URL_REQ"}, async function(response) {
+            // The response should be an object that looks like this:
+            // {url: Promise}
+            let responseUrl = await response.url; // Wait for the URL before resolving *this* promise
+            if (DEBUG) console.log("REQ_URL RESPONSE (BELOW):");
+            if (DEBUG) console.log(responseUrl);
+            resolve(responseUrl);
+        });
     });
-    return url;
 }
 
 /* 
@@ -71,8 +76,20 @@ async function attemptSaveButtonInject() {
 }
 
 // Define behavior for the 'Save' button
-function onSaveClicked() {
+async function onSaveClicked() {
     if (DEBUG) console.log("SAVE BUTTON CLICKED!");
+    // TODO: maybe find a better way to do this?
+    //      This is a fix to make sure that users can only save data for reports that have a location. If they
+    // don't select a location, then the report will have different items for different records, and the data will not line up.
+    let currentUrl = await requestCurrentUrl();
+    if (DEBUG) console.log("requestCurrentUrl() returned: " + currentUrl);
+    if (!(currentUrl.toLowerCase().includes("inventorylocationid="))) {
+        alert("Saving is only currently supported when a specific location is selected.");
+        return;
+    }
+
+    alert("Saving...");
+
     // Parse whatever is in the 'Data' tab into an array
     const entries = [];
     // TODO: figure out a logical structure for the data
