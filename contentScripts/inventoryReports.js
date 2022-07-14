@@ -1,23 +1,44 @@
 // Change this to true to enable console.log() debug messages
 const DEBUG = true; 
 
+if (DEBUG) console.log("WARNING: CONSOLE DEBUGGING ENABLED--DISABLE BEFORE PUBLISHING");
 if (DEBUG) console.log("Content Script Loaded!");
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Returns a promise with a string with this tab's current URL
+var comPort = chrome.runtime.connect({name: "invRepComPort"});
+// Returns a string with the tab's current URL
 async function requestCurrentUrl() {
     return new Promise(function(resolve, reject) {
-        chrome.runtime.sendMessage({MESSAGE_TYPE: "URL_REQ"}, async function(response) {
-            // The response should be an object that looks like this:
-            // {url: Promise}
-            let responseUrl = await response.url; // Wait for the URL before resolving *this* promise
-            if (DEBUG) console.log("REQ_URL RESPONSE (BELOW):");
-            if (DEBUG) console.log(responseUrl);
-            resolve(responseUrl);
-        });
+        comPort.postMessage({MESSAGE_TYPE: "URL_REQ"});
+        var url = "";
+        let newEventListener = async function(msg) {
+            if (msg.MESSAGE_TYPE === "URL_RSP") {
+                if (msg.url) {
+                    url = msg.url;
+                }
+                else {
+                    if (DEBUG) console.log("ERROR: NO URL IN RESPONSE (or URL is blank)");
+                }
+                comPort.onMessage.removeListener(newEventListener);
+            }
+        }
+        comPort.onMessage.addListener(newEventListener);
+
+        // Wait for the background to come back with a response
+        let waitForResponse = async function() {
+            while (url === "") {
+                if (DEBUG) console.log("Awaiting URL response from background script.");
+                await sleep(500);
+            }
+        }
+        waitForResponse();
+
+        console.log("Background Script returned: " + url);
+
+        resolve(url);
     });
 }
 
@@ -62,6 +83,7 @@ async function attemptSaveButtonInject() {
     //      the DOM being updated
     let filterButtonElement;
     while (!(filterButtonElement = document.querySelector("button[ng-click='filterButtonAction()']"))) {
+        // TODO: find a way to do this that's not busy-waiting lol
         await sleep(500); // Put a wait in here so we're only spam-checking every 500ms, not holding up the entire page
     }
 
