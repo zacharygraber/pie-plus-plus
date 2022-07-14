@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "minimum_chrome_version": "92",
+    "name": "PIE++",
+    "version": "0.1",
+    "description": "Adds some much-needed QOL features to PIE",
+    "permissions": [
+        "storage",
+        "tabs",
+        "downloads",
+        "history"
+    ],
+    "host_permissions": [
+        "https://*.pie.iu.edu/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://*.pie.iu.edu/*"],
+            "js": ["contentScript.js"]
+        },
+        {
+            "matches": ["https://*.pie.iu.edu/InventoryReports*", "https://*.pie.iu.edu/inventoryReports*"],
+            "js": ["inventoryReports.js"]
+        }
+    ],
+    "action": {
+        "default_title": "PIE++",
+        "default_popup": "popup.html"
+    }
+}
