@@ -1,4 +1,4 @@
-//var browser = require("webextension-polyfill");
+var browser = require("webextension-polyfill");
 
 let headerText = "SAMPLE TEXT!";
 

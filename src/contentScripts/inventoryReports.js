@@ -4,6 +4,8 @@ const DEBUG = true;
 if (DEBUG) console.log("WARNING: CONSOLE DEBUGGING ENABLED--DISABLE BEFORE PUBLISHING");
 if (DEBUG) console.log("Content Script Loaded!");
 
+var browser = require("webextension-polyfill");
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
