@@ -1,3 +1,5 @@
+//var browser = require("webextension-polyfill");
+
 let headerText = "SAMPLE TEXT!";
 
 chrome.runtime.onInstalled.addListener(function() {
@@ -18,9 +20,11 @@ chrome.runtime.onConnect.addListener(function(port) {
             // Response Attributes:
             //     - url:           A Promise that will eventually contain the page's URL
             else if (message.MESSAGE_TYPE === "URL_REQ") {
-                chrome.tabs.get(sendingPort.sender.tab.id, function(tab) {
-                    invRepComPort.postMessage({MESSAGE_TYPE: "URL_RSP", url: (tab.pendingUrl ? tab.pendingUrl : tab.url)});
-                });
+                console.log("HERE!");
+                console.log("browser: " + browser);
+                // chrome.tabs.get(sendingPort.sender.tab.id, function(tab) {
+                //     invRepComPort.postMessage({MESSAGE_TYPE: "URL_RSP", url: (tab.pendingUrl ? tab.pendingUrl : tab.url)});
+                // });
             }
         });
     }

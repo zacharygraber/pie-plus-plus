@@ -1275,3 +1275,4 @@
   }
 });
 //# sourceMappingURL=browser-polyfill.js.map
+console.log("BROWSER POLYFILL RAN!!!!!!!!!");
