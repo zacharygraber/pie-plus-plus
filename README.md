@@ -33,6 +33,8 @@ This guide will assume that you are a total noob to Git/Github.
 4. That's it--You're ready to get to work! PIE++ is designed to be very portable.
 
 ## Building the extension:
+After ***every change you make*** to `.js` files, including both content scripts and the background service worker, you will need to rebuild the project. This is necessary due to project dependencies, namely the [webextension-polyfill](https://github.com/mozilla/webextension-polyfill) library from Mozilla.
+
 1. TODO
 
 ## Testing:
