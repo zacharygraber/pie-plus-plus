@@ -8,4 +8,5 @@ Features to be implemented in the future include:
 
 # Contributing
 This project is (and will always be) open-source; any and all are encouraged to contribute.
-**Have an idea for a feature, but don't know how to code?** - 
+
+**Have an idea for a feature, but don't know how to code?** - [Submit a feature request](https://github.com/zacharygraber/pie-plus-plus/issues/new?assignees=&labels=&template=feature_request.md&title=) through Github Issues!
