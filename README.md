@@ -16,12 +16,12 @@ This project is (and will always be) open-source; any and all are encouraged to 
 
 This guide will assume that you are a total noob to Git/Github.
   
-### Prerequisites:
+## Prerequisites:
 - Google Chrome (obviously) **version 92+**
 - [Node.JS version 16](https://nodejs.org/en/)
 - [Git](https://git-scm.com/downloads)
 
-### Getting things ready:
+## Getting things ready:
 1. Run the following command from the terminal of your choice to clone the repository into a new folder in the cwd (download the source code):
 
    ```
@@ -32,10 +32,10 @@ This guide will assume that you are a total noob to Git/Github.
     - Refer to the documentation (***TODO***) for an explanation of each file/folder, as well as tutorials and examples for editing/adding functionality.
 4. That's it--You're ready to get to work! PIE++ is designed to be very portable.
 
-### Building the extension:
+## Building the extension:
 1. TODO
 
-### Testing:
+## Testing:
 PIE++ does not currently have any automated unit/integration tests, although we hope to implement these in the future. Testing out the extension in-browser is easy, though.
 1. Open up Google Chrome
 2. Navigate to the Extensions page by typing `chrome://extensions` in the navigation bar or via `three dots -> More Tools -> Extensions`  
@@ -48,6 +48,6 @@ PIE++ does not currently have any automated unit/integration tests, although we 
     
 4. A dialogue box should pop up. Select the `pie-plus-plus/extension` folder, then click `Select Folder`.  
 5. You should now see the PIE++ extension in your list.  
-***NOTE:*** You will need to reload the extension after **every** change you make with the small refresh icon in the bottom-right corner. If your new changes aren't reflected in the browser, make sure you have also rebuilt the application--see above.  
+***NOTE:*** You will need to reload the extension after **every** change you make with the small refresh icon in the bottom-right corner. If your new changes aren't reflected in the browser, make sure you have also rebuilt the application--[see above](#building-the-extension).  
 
     <p align="center"><img src="https://user-images.githubusercontent.com/60680903/179128727-e8ec7218-2b1a-4bac-984d-c793c131fc4e.png" /></p>
