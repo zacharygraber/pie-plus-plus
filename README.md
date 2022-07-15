@@ -7,4 +7,5 @@ Features to be implemented in the future include:
 - Toggle on/off a "return to top" button on articles (they can sometimes get very long)
 
 # Contributing
-TODO
+This project is (and will always be) open-source; any and all are encouraged to contribute.
+**Have an idea for a feature, but don't know how to code?** - 
