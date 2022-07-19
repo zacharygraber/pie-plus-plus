@@ -6,6 +6,33 @@ if (DEBUG) console.log("Content Script Loaded!");
 
 var browser = require("webextension-polyfill");
 
+///////////////////////////////////////////////////////////////////////////////////////
+//  Class Declarations  ///////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------- //
+
+class InventoryReport {
+    constructor (creator, date, location) {
+        this.creator = creator;
+        this.date = date;
+        this.location = location;
+        this.items = []; // Array of InventoryItem objects
+    }
+
+    addItem(newItem) {
+        this.items.push(newItem);
+    }
+}
+
+class InventoryItem {
+    constructor (name, count) {
+        this.name = name;
+        this.count = count;
+    }
+}
+
+// --------------------------------------------------------------------------------- //
+///////////////////////////////////////////////////////////////////////////////////////
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -78,9 +105,31 @@ function findInventoryReportPanels() {
     let panelsParent = document.getElementById("inventory-historical-recursive.html").parentElement;
     let panels = [];
     for (let i = 2; i < panelsParent.children.length; i++) {
-        panels.push(panelsParent.children[i]);
+        panels.push(panelsParent.children[i].firstElementChild);
     }
     return panels;
+} 
+
+/*
+ * Description: helper function for onSaveClicked()
+ * Accepts:     An Element that is an inventory report entry panel
+ * Returns:     An InventoryReport object representing the panel
+ */
+function parseInventoryReportPanel(panel) {
+    // Step 1: get location name
+    let locationName = panel.children[0].children[0].innerHTML;
+
+    // Step 2: get author name and date
+    let authorUsername = panel.children[2].firstChild.nodeValue;
+    authorUsername = authorUsername.substring(authorUsername.indexOf('(') + 1, authorUsername.indexOf(')'));
+    let dateOfCreation = panel.children[2].firstElementChild.innerText;
+
+    // Step 3: create the InventoryReport object then populate its items
+    let report = new InventoryReport(authorUsername, dateOfCreation, locationName);
+    
+
+    return false; // TODO
+    // panel.children[1].querySelectorAll(".input-group");
 } 
 
 function onSaveClicked() {
