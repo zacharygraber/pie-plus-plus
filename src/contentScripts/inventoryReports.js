@@ -126,17 +126,24 @@ function parseInventoryReportPanel(panel) {
 
     // Step 3: create the InventoryReport object then populate its items
     let report = new InventoryReport(authorUsername, dateOfCreation, locationName);
-    
+    let itemElementsList = panel.children[1].querySelectorAll(".input-group");
+    let itemName, itemCount;
+    for (let i = 0; i < itemElementsList.length; i++) {
+        itemName = itemElementsList[i].children[0].innerText;
+        itemCount = angular.element(itemElementsList[i].children[1]).scope().item.quantity;
+        report.addItem(new InventoryItem(itemName, count));
+    }
 
-    return false; // TODO
-    // panel.children[1].querySelectorAll(".input-group");
+    return report;
 } 
 
 function onSaveClicked() {
     if (DEBUG) console.log("SAVE BUTTON CLICKED!");
 
     let panels = findInventoryReportPanels();
-    console.log(panels);
+    for (let i = 0; i < panels.length; i++) {
+        console.log(parseInventoryReportPanel(panels[i]));
+    }
 }
 
 startLoadingGifObserver();
