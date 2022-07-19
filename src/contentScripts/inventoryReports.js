@@ -10,40 +10,6 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-var comPort = chrome.runtime.connect({name: "invRepComPort"});
-// Returns a string with the tab's current URL
-async function requestCurrentUrl() {
-    return new Promise(function(resolve, reject) {
-        comPort.postMessage({MESSAGE_TYPE: "URL_REQ"});
-        var url = "";
-        let newEventListener = async function(msg) {
-            if (msg.MESSAGE_TYPE === "URL_RSP") {
-                if (msg.url) {
-                    url = msg.url;
-                }
-                else {
-                    if (DEBUG) console.log("ERROR: NO URL IN RESPONSE (or URL is blank)");
-                }
-                comPort.onMessage.removeListener(newEventListener);
-            }
-        }
-        comPort.onMessage.addListener(newEventListener);
-
-        // Wait for the background to come back with a response
-        let waitForResponse = async function() {
-            while (url === "") {
-                if (DEBUG) console.log("Awaiting URL response from background script.");
-                await sleep(500);
-            }
-        }
-        waitForResponse();
-
-        console.log("Background Script returned: " + url);
-
-        resolve(url);
-    });
-}
-
 /* 
         We are injecting a 'Save' button onto the 'Historical' part of the Inventory Reports
     page. The problem here is with Angular and the way it loads web pages. When the page is "finished"
@@ -99,24 +65,26 @@ async function attemptSaveButtonInject() {
     if (DEBUG) console.log("SAVE BUTTON INJECTED");
 }
 
-// Define behavior for the 'Save' button
-async function onSaveClicked() {
-    if (DEBUG) console.log("SAVE BUTTON CLICKED!");
-    // TODO: maybe find a better way to do this?
-    //      This is a fix to make sure that users can only save data for reports that have a location. If they
-    // don't select a location, then the report will have different items for different records, and the data will not line up.
-    let currentUrl = await requestCurrentUrl();
-    if (DEBUG) console.log("requestCurrentUrl() returned: " + currentUrl);
-    if (!(currentUrl.toLowerCase().includes("inventorylocationid="))) {
-        alert("Saving is only currently supported when a specific location is selected.");
-        return;
+///////////////////////////////////////////////////////////////////////////////////////
+//  Define behavior for the 'Save' button  ////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+/*
+ * Description: helper function for onSaveClicked()
+ * Returns:     an array with all inventory report item panel elements, or an empty array if none are found
+ */
+function findInventoryReportPanels() {
+    // There is a <script> tag adjacent to the first panel that we can easily locate since it has an ID
+    let panelsParent = document.getElementById("inventory-historical-recursive.html").parentElement;
+    for (let i = 2; i < panelsParent.children.length; i++) {
+        // Do something with each child
     }
+} 
 
-    alert("Saving...");
+function onSaveClicked() {
+    if (DEBUG) console.log("SAVE BUTTON CLICKED!");
 
-    // Parse whatever is in the 'Data' tab into an array
-    const entries = [];
-    // TODO: figure out a logical structure for the data
+
 }
 
 startLoadingGifObserver();
