@@ -76,15 +76,18 @@ async function attemptSaveButtonInject() {
 function findInventoryReportPanels() {
     // There is a <script> tag adjacent to the first panel that we can easily locate since it has an ID
     let panelsParent = document.getElementById("inventory-historical-recursive.html").parentElement;
+    let panels = [];
     for (let i = 2; i < panelsParent.children.length; i++) {
-        // Do something with each child
+        panels.push(panelsParent.children[i]);
     }
+    return panels;
 } 
 
 function onSaveClicked() {
     if (DEBUG) console.log("SAVE BUTTON CLICKED!");
 
-
+    let panels = findInventoryReportPanels();
+    console.log(panels);
 }
 
 startLoadingGifObserver();
