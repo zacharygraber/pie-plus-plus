@@ -94,7 +94,7 @@ async function attemptSaveButtonInject() {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 //  Define behavior for the 'Save' button  ////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------------------- //
 
 /*
  * Description: helper function for onSaveClicked()
@@ -141,9 +141,17 @@ function onSaveClicked() {
     if (DEBUG) console.log("SAVE BUTTON CLICKED!");
 
     let panels = findInventoryReportPanels();
+
+    if (panels.length < 1) {
+        alert("No data to save.");
+        return;
+    }
+
     for (let i = 0; i < panels.length; i++) {
-        console.log(parseInventoryReportPanel(panels[i]));
+        if (DEBUG) console.log(parseInventoryReportPanel(panels[i]));
     }
 }
+// --------------------------------------------------------------------------------- //
+///////////////////////////////////////////////////////////////////////////////////////
 
 startLoadingGifObserver();
