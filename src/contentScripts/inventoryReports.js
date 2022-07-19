@@ -130,8 +130,8 @@ function parseInventoryReportPanel(panel) {
     let itemName, itemCount;
     for (let i = 0; i < itemElementsList.length; i++) {
         itemName = itemElementsList[i].children[0].innerText;
-        itemCount = angular.element(itemElementsList[i].children[1]).scope().item.quantity;
-        report.addItem(new InventoryItem(itemName, count));
+        itemCount = itemElementsList[i].children[1].value;
+        report.addItem(new InventoryItem(itemName, itemCount));
     }
 
     return report;
