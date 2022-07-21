@@ -165,7 +165,16 @@ function generateCSV(cols, reports) {
     });
     
     // Fill in the data for each report
-    
+    for (let i = 0; i < reports.length; i++) {
+        csvOut += ("\n" + reports[i].location + "," + reports[i].creator + "," + reports[i].date);
+        cols.forEach(function(itemName) {
+            csvOut += ",";
+            if (reports[i].items.has(itemName)) {
+                csvOut += reports[i].items.get(itemName);
+            }
+        });
+    }
+    return csvOut;
 }
 
 function onSaveClicked() {
@@ -192,6 +201,7 @@ function onSaveClicked() {
 
     // Generate the CSV from the columns and Inventory Reports
     let csvOut = generateCSV(columns, reports);
+    if (DEBUG) console.log("CSV Output: \n" + csvOut);
 }
 // --------------------------------------------------------------------------------- //
 ///////////////////////////////////////////////////////////////////////////////////////
