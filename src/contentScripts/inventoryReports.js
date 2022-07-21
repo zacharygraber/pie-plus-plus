@@ -202,6 +202,10 @@ function onSaveClicked() {
     // Generate the CSV from the columns and Inventory Reports
     let csvOut = generateCSV(columns, reports);
     if (DEBUG) console.log("CSV Output: \n" + csvOut);
+
+    // Convert the CSV data into a Base-64 data URI
+    let dataUri = "data:text/csv;base64," + btoa(csvOut);
+    if (DEBUG) console.log("Data URI: "+ dataUri);
 }
 // --------------------------------------------------------------------------------- //
 ///////////////////////////////////////////////////////////////////////////////////////
