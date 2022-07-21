@@ -5,11 +5,12 @@
     "version": "0.2",
     "description": "Adds some much-needed QOL features to PIE",
     "permissions": [
-        "storage",
         "tabs",
-        "downloads",
         "history"
     ],
+    "icons": {
+        "48": "images/icon48.png"
+    },
     "host_permissions": [
         "https://*.pie.iu.edu/*"
     ],
