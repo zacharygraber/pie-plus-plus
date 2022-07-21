@@ -1,15 +1,9 @@
 // Change this to true to enable console.log() debug messages
-const DEBUG = true; 
+const DEBUG = false; 
 
 if (DEBUG) console.log("WARNING: CONSOLE DEBUGGING ENABLED--DISABLE BEFORE PUBLISHING");
 
 var browser = require("webextension-polyfill");
-
-let headerText = "SAMPLE TEXT!";
-
-chrome.runtime.onInstalled.addListener(function() {
-    chrome.storage.sync.set({ headerText });
-});
 
 //      If the page changes to Inventory Reports (and wasn't before) refresh
 // the browser tab. Same when navigating away from the IR page. This is a workaround

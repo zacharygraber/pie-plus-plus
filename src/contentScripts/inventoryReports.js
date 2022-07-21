@@ -1,5 +1,5 @@
 // Change this to true to enable console.log() debug messages
-const DEBUG = true; 
+const DEBUG = false; 
 
 if (DEBUG) console.log("WARNING: CONSOLE DEBUGGING ENABLED--DISABLE BEFORE PUBLISHING");
 if (DEBUG) console.log("Content Script Loaded!");

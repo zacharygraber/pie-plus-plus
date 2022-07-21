@@ -5,7 +5,6 @@
     "version": "0.2",
     "description": "Adds some much-needed QOL features to PIE",
     "permissions": [
-        "storage",
         "tabs",
         "history"
     ],
