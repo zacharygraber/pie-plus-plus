@@ -206,6 +206,17 @@ function onSaveClicked() {
     // Convert the CSV data into a Base-64 data URI
     let dataUri = "data:text/csv;base64," + btoa(csvOut);
     if (DEBUG) console.log("Data URI: "+ dataUri);
+
+    // A stupid workaround for saving the file by making a link, clicking it, then deleting it.
+    // This is necessary because the web extension downloads API is bad and can't seem to support data URIs
+    // Thanks to https://stackoverflow.com/questions/3916191/download-data-url-file for this one :')
+    let link = document.createElement("a");
+    link.download = "report.csv";
+    link.href = dataUri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    delete link;
 }
 // --------------------------------------------------------------------------------- //
 ///////////////////////////////////////////////////////////////////////////////////////
