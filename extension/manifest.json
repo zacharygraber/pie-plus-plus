@@ -11,17 +11,10 @@
     "icons": {
         "48": "images/icon48.png"
     },
-    "host_permissions": [
-        "https://*.pie.iu.edu/*"
-    ],
     "background": {
         "service_worker": "background.js"
     },
     "content_scripts": [
-        {
-            "matches": ["https://*.pie.iu.edu/*"],
-            "js": ["contentScript.js"]
-        },
         {
             "matches": ["https://*.pie.iu.edu/InventoryReports*", "https://*.pie.iu.edu/inventoryReports*"],
             "js": ["inventoryReports.js"],
