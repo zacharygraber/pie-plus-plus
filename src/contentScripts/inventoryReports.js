@@ -135,21 +135,62 @@ function parseInventoryReportPanel(panel) {
     }
 
     return report;
-} 
+}
+
+/*
+ * Description: helper function for onSaveClicked()
+ * Accepts:     An array of InventoryReport objects
+ * Returns:     A Set of unique inventory items (columns for the CSV file)
+ */
+function getUniqueColumnsFromReports(reports) {
+    let cols = new Set(["Location","Creator","Date"]);
+    for (let i = 0; i < reports.length; i++) {
+        console.assert(reports[i] instanceof InventoryReport);
+        for (let j = 0; j < reports[i].items.length; j++) {
+            console.assert(reports[i].items[j] instanceof InventoryItem);
+            cols.add(reports[i].items[j].name); // Ignores duplicates, since we're using a Set
+        }
+    }
+    return cols;
+}
+
+/*
+ * Description: helper function for onSaveClicked()
+ * Accepts:     
+ *              - A Set of unique columns to include in the CSV
+ *              - An array of InventoryReport objects
+ * 
+ * Returns:     A string
+ */
+function generateCSV(cols, reports) {
+    let csvOut = "";
+    // Start by adding column headers
+    
+}
 
 function onSaveClicked() {
     if (DEBUG) console.log("SAVE BUTTON CLICKED!");
 
-    let panels = findInventoryReportPanels();
+    let panels = findInventoryReportPanels(); // Scrape the DOM for the info we need
 
+    // Special case for empty query result
     if (panels.length < 1) {
         alert("No data to save.");
         return;
     }
 
+    // Parse the Panel element into a usable JS object
+    let reports = [];
     for (let i = 0; i < panels.length; i++) {
-        if (DEBUG) console.log(parseInventoryReportPanel(panels[i]));
+        if (DEBUG) console.log("Parsing panel " + panels[i]);
+        reports.push(parseInventoryReportPanel(panels[i]));
     }
+
+    // Identify all of the columns for the CSV output
+    let columns = getUniqueColumnsFromReports(reports);
+
+    // Generate the CSV from the columns and Inventory Reports
+    let csvOut = generateCSV(columns, reports);
 }
 // --------------------------------------------------------------------------------- //
 ///////////////////////////////////////////////////////////////////////////////////////
