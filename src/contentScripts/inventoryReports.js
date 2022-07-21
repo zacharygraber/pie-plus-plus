@@ -139,7 +139,7 @@ function getUniqueColumnsFromReports(reports) {
     let cols = new Set();
     for (let i = 0; i < reports.length; i++) {
         console.assert(reports[i] instanceof InventoryReport);
-        for (let itemName of reports[i].items) {
+        for (let itemName of reports[i].items.keys()) {
             // Inventory item name should be the key of the key/value Map pair
             // Ignores duplicates, since we're using a Set
             cols.add(itemName);
@@ -188,7 +188,7 @@ function onSaveClicked() {
 
     // Identify all of the columns for the CSV output
     let columns = getUniqueColumnsFromReports(reports);
-    if (DEBUG) console.log("Identified columns: " + columns);
+    if (DEBUG) console.log("Identified columns: " + Array.from(columns));
 
     // Generate the CSV from the columns and Inventory Reports
     let csvOut = generateCSV(columns, reports);
