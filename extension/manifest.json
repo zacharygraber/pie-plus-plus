@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "minimum_chrome_version": "92",
     "name": "PIE++",
-    "version": "0.1",
+    "version": "0.2",
     "description": "Adds some much-needed QOL features to PIE",
     "permissions": [
         "storage",
