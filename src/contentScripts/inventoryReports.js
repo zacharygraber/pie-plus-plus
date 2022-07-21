@@ -15,18 +15,11 @@ class InventoryReport {
         this.creator = creator;
         this.date = date;
         this.location = location;
-        this.items = []; // Array of InventoryItem objects
+        this.items = new Map(); // HashMap of <name: count> pairs
     }
 
-    addItem(newItem) {
-        this.items.push(newItem);
-    }
-}
-
-class InventoryItem {
-    constructor (name, count) {
-        this.name = name;
-        this.count = count;
+    addItem(name, count) {
+        this.items.set(name, count);
     }
 }
 
@@ -131,7 +124,7 @@ function parseInventoryReportPanel(panel) {
     for (let i = 0; i < itemElementsList.length; i++) {
         itemName = itemElementsList[i].children[0].innerText;
         itemCount = itemElementsList[i].children[1].value;
-        report.addItem(new InventoryItem(itemName, itemCount));
+        report.addItem(itemName, itemCount);
     }
 
     return report;
@@ -143,12 +136,13 @@ function parseInventoryReportPanel(panel) {
  * Returns:     A Set of unique inventory items (columns for the CSV file)
  */
 function getUniqueColumnsFromReports(reports) {
-    let cols = new Set(["Location","Creator","Date"]);
+    let cols = new Set();
     for (let i = 0; i < reports.length; i++) {
         console.assert(reports[i] instanceof InventoryReport);
-        for (let j = 0; j < reports[i].items.length; j++) {
-            console.assert(reports[i].items[j] instanceof InventoryItem);
-            cols.add(reports[i].items[j].name); // Ignores duplicates, since we're using a Set
+        for (let itemName of reports[i].items) {
+            // Inventory item name should be the key of the key/value Map pair
+            // Ignores duplicates, since we're using a Set
+            cols.add(itemName);
         }
     }
     return cols;
@@ -165,6 +159,12 @@ function getUniqueColumnsFromReports(reports) {
 function generateCSV(cols, reports) {
     let csvOut = "";
     // Start by adding column headers
+    csvOut += "Location,Creator,Date";
+    cols.forEach(function(col) {
+        csvOut += ("," + col);
+    });
+    
+    // Fill in the data for each report
     
 }
 
@@ -188,6 +188,7 @@ function onSaveClicked() {
 
     // Identify all of the columns for the CSV output
     let columns = getUniqueColumnsFromReports(reports);
+    if (DEBUG) console.log("Identified columns: " + columns);
 
     // Generate the CSV from the columns and Inventory Reports
     let csvOut = generateCSV(columns, reports);
