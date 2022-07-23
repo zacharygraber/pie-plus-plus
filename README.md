@@ -7,6 +7,9 @@ Features to be implemented in the future include:
 - Set a custom home screen (landing page) for each PIE instance
 - Toggle on/off a "return to top" button on articles (they can sometimes get very long)
 
+# Download
+PIE++ can be installed from the [Chrome Web Store](https://chrome.google.com/webstore/detail/pie%20%20/kfbkkfammadjelfolddbmojgigbcgonj?hl=en&authuser=0)
+
 # Follow this project
 You can sign up for automated Github email reports (triggered on things like `push` events) by subscribing to the p3-gh-notifs-l@iu.edu mailing list [here](https://list.iu.edu/sympa/info/p3-gh-notifs-l)!
 
