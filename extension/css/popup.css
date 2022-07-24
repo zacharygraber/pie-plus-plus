@@ -7,7 +7,11 @@
     width: 9em;
 }
 
-.configOption > td > button {
+.configOption > td > img {
     width: 2em;
     text-align: center;
+    overflow: hidden;
+    width: 1.25em;
+    height: 1.25em;
+    cursor: pointer;
 }
