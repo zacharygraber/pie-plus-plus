@@ -1,0 +1,17 @@
+.configOption > td > label {
+    width: 9em;
+    text-align: left;
+}
+
+.configOption > td > input {
+    width: 9em;
+}
+
+.configOption > td > img {
+    width: 2em;
+    text-align: center;
+    overflow: hidden;
+    width: 1.25em;
+    height: 1.25em;
+    cursor: pointer;
+}

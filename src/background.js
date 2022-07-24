@@ -3,7 +3,12 @@ const DEBUG = false;
 
 if (DEBUG) console.log("WARNING: CONSOLE DEBUGGING ENABLED--DISABLE BEFORE PUBLISHING");
 
+const { storage } = require("webextension-polyfill");
 var browser = require("webextension-polyfill");
+
+browser.runtime.onInstalled.addListener(function(details) {
+    browser.storage.sync.set({homePage: "ActiveShifts"});
+});
 
 //      If the page changes to Inventory Reports (and wasn't before) refresh
 // the browser tab. Same when navigating away from the IR page. This is a workaround
@@ -33,6 +38,22 @@ browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
                         browser.tabs.reload(tabId); // Reload to clean up the content script
                     }
                 }
+            });
+        }
+    }
+});
+
+//      Check tab info for new navigations to `<ANYTHING>.pie.iu.edu` and hijack the navigation to go 
+// to `<ANYTHING>.pie.iu.edu/<CUSTOME HOME PAGE>` instead
+browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    if (changeInfo.url) {
+        if (changeInfo.url.toLowerCase().endsWith("pie.iu.edu") || changeInfo.url.toLowerCase().endsWith("pie.iu.edu/")) {
+            console.log(tab.url);
+            let pieInstance = tab.url.replace("https:\/\/", "").replace("http:\/\/", "");
+            pieInstance = pieInstance.substring(0, pieInstance.indexOf(".pie.iu.edu"));
+            let lookup = browser.storage.sync.get("homePage");
+            lookup.then(function(homePage) {
+                browser.tabs.update(tabId, {url: ("https://" + pieInstance + ".pie.iu.edu/" + homePage.homePage)});
             });
         }
     }

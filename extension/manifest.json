@@ -6,7 +6,8 @@
     "description": "Adds some much-needed QOL features to PIE",
     "permissions": [
         "tabs",
-        "history"
+        "history",
+        "storage"
     ],
     "icons": {
         "48": "images/icon48.png"

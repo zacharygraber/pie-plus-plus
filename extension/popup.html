@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="css/popup.css">
     </head>
     <body>
         <div style="width: 20em;">
             <h3 style="text-align: center;">PIE++</h3>
             <hr />
             <p style="text-align: center;"><a href="https://github.com/zacharygraber/pie-plus-plus">Visit us on Github!</a></p>
+            <table>
+                <tr class="configOption">
+                    <td><label for="homePageField">Home Page:</label></td>
+                    <td><input id="homePageField" type="text" disabled="disabled" value="Loading..."></td>
+
+                    <!-- Repplace the "edit" text with a more proper edit icon (like a pencil or sth) -->
+                    <td><img src="images/icons8-edit.svg" id="homePageFieldEdit"/></td>
+                </tr>
+            </table>
         </div>
+
+        <!-- Icons8 attribution. Please don't delete--required by their license terms -->
+        <p style="font-size: 0.65em; text-align: center;"><a target="_blank" href="https://icons8.com/icon/71201/edit">Edit</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+        <script src="popup.js"></script>
     </body>
 </html>
