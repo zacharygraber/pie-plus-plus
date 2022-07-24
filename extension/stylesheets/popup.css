@@ -1,0 +1,13 @@
+.configOption > td > label {
+    width: 9em;
+    text-align: left;
+}
+
+.configOption > td > input {
+    width: 9em;
+}
+
+.configOption > td > button {
+    width: 2em;
+    text-align: center;
+}

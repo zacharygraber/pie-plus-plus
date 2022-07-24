@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="stylesheets/popup.css">
     </head>
     <body>
         <div style="width: 20em;">
             <h3 style="text-align: center;">PIE++</h3>
             <hr />
             <p style="text-align: center;"><a href="https://github.com/zacharygraber/pie-plus-plus">Visit us on Github!</a></p>
-            <p style="text-align: center;">Current Home Page: <span id="currentHomePage">TBD</span></p>
+            <table>
+                <tr class="configOption">
+                    <td><label for="homePageField">Home Page:</label></td>
+                    <td><input id="homePageField" type="text" disabled="disabled" value="Loading..."></td>
+
+                    <!-- Repplace the "edit" text with a more proper edit icon (like a pencil or sth) -->
+                    <td><button id="homePageFieldEdit">edit</button></td>
+                </tr>
+            </table>
         </div>
         <script src="popup.js"></script>
     </body>
