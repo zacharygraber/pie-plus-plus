@@ -3,7 +3,12 @@ const DEBUG = false;
 
 if (DEBUG) console.log("WARNING: CONSOLE DEBUGGING ENABLED--DISABLE BEFORE PUBLISHING");
 
+const { storage } = require("webextension-polyfill");
 var browser = require("webextension-polyfill");
+
+browser.runtime.onInstalled.addListener(function(details) {
+    browser.storage.sync.set({homePage: "ActiveShifts"});
+});
 
 //      If the page changes to Inventory Reports (and wasn't before) refresh
 // the browser tab. Same when navigating away from the IR page. This is a workaround
