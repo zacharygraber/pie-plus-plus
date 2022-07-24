@@ -42,3 +42,19 @@ browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         }
     }
 });
+
+//      Check tab info for new navigations to `<ANYTHING>.pie.iu.edu` and hijack the navigation to go 
+// to `<ANYTHING>.pie.iu.edu/<CUSTOME HOME PAGE>` instead
+browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    if (changeInfo.url) {
+        if (changeInfo.url.toLowerCase().endsWith("pie.iu.edu") || changeInfo.url.toLowerCase().endsWith("pie.iu.edu/")) {
+            console.log(tab.url);
+            let pieInstance = tab.url.replace("https:\/\/", "").replace("http:\/\/", "");
+            pieInstance = pieInstance.substring(0, pieInstance.indexOf(".pie.iu.edu"));
+            let lookup = browser.storage.sync.get("homePage");
+            lookup.then(function(homePage) {
+                browser.tabs.update(tabId, {url: ("https://" + pieInstance + ".pie.iu.edu/" + homePage.homePage)});
+            });
+        }
+    }
+});

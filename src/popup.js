@@ -1,4 +1,5 @@
 const DEBUG = true;
+if (DEBUG) console.log("WARNING: CONSOLE DEBUGGING ENABLED--DISABLE BEFORE PUBLISHING");
 
 var browser = require("webextension-polyfill");
 
